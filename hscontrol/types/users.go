@@ -318,9 +318,9 @@ func (u *User) FromClaim(claims *OIDCClaims) {
 	if err == nil {
 		u.Name = claims.Username
 	} else {
-		log.Debug().Err(err).Msgf("Username %s is not valid", claims.Username)
+		log.Debug().Err(err).Msgf("Username %s (for email: %s) is not valid", claims.Username, claims.Email)
 
-		if claims.Email != "" && claims.EmailVerified {
+		if claims.Email != "" {
 			emailParts := strings.Split(claims.Email, "@")
 			err = util.ValidateUsername(emailParts[0])
 			if err == nil {
